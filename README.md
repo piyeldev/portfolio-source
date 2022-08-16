@@ -4,5 +4,5 @@ Source Code of my Portfolio made with:
 
  - [Flutter](https://flutter.dev/)
  - [Visual Studio Code](https://code.visualstudio.com)
- - **And some Code Magic !**
+ - **And some time and pain !**
 
