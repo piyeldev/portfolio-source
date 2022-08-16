@@ -5,16 +5,19 @@ class NavBarItem extends StatefulWidget {
   final Color? normalColor;
   final Color? selectedColor;
   final String? text;
+  final String? label;
+
   final void Function()? onClick;
   final bool? isSelected;
-  const NavBarItem(
-      {Key? key,
-      required this.normalColor,
-      required this.selectedColor,
-      required this.text,
-      required this.onClick,
-      this.isSelected})
-      : super(key: key);
+  const NavBarItem({
+    Key? key,
+    required this.normalColor,
+    required this.selectedColor,
+    this.text,
+    required this.onClick,
+    this.isSelected,
+    this.label,
+  }) : super(key: key);
 
   @override
   State<NavBarItem> createState() => _NavBarItemState();
@@ -22,21 +25,11 @@ class NavBarItem extends StatefulWidget {
 
 class _NavBarItemState extends State<NavBarItem>
     with SingleTickerProviderStateMixin {
-  Color? itemColor;
   bool hovered = false;
+
   String? text = '';
   Color? selectedColor;
   Color? normalColor;
-
-  void isSelected() {
-    selectedColor = widget.selectedColor;
-    normalColor = widget.normalColor;
-
-    if (widget.isSelected != null) {
-    } else {
-      itemColor = normalColor;
-    }
-  }
 
   void onHoverEffects(bool isHovered) => setState(() {
         hovered = isHovered;
@@ -53,6 +46,8 @@ class _NavBarItemState extends State<NavBarItem>
     // TODO: implement initState
     super.initState();
     text = widget.text;
+    selectedColor = widget.selectedColor;
+    normalColor = widget.normalColor;
   }
 
   late final AnimationController _controller = AnimationController(
@@ -74,7 +69,8 @@ class _NavBarItemState extends State<NavBarItem>
           onExit: (event) => onHoverEffects(false),
           child: TextButton(
               style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all<Color?>(itemColor),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color?>(normalColor),
                   overlayColor:
                       MaterialStateProperty.all<Color>(Colors.transparent),
                   backgroundColor:

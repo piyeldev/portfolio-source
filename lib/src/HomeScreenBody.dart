@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/Animations.dart';
+import 'Animations.dart';
 import 'package:rive/rive.dart';
 
 class HomeScreenBody extends StatefulWidget {
@@ -11,6 +11,8 @@ class HomeScreenBody extends StatefulWidget {
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   TextStyle? foregroundTextColor = const TextStyle(color: Colors.white);
+  ScrollController? scrollController;
+  double pixels = 0.0;
 
   late RiveAnimationController _controller;
 
@@ -25,6 +27,14 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   void initState() {
     super.initState();
     _controller = SimpleAnimation('idle');
+
+    scrollController = ScrollController();
+    scrollController!.addListener(() {
+      setState(() {
+        pixels = scrollController!.position.pixels;
+        print(pixels);
+      });
+    });
   }
 
   @override
@@ -36,25 +46,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-        ),
-        SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 500,
-              child: const Center(
-                  child: TypingTextAnimation(
-                duration: Duration(seconds: 3),
-                text: 'Hi There!, Scroll down slowly!',
-                textStyle: TextStyle(color: Colors.white, fontSize: 80),
-              )),
-            ))
-      ],
+    return ListView(
+      controller: scrollController,
+      children: [],
     );
   }
 }
